@@ -1,8 +1,7 @@
 defmodule Day01.Part1 do
-  def solve(input) do
-    input
-    |> String.split("\n", trim: true)
-    |> Enum.map(&process_line/1)
+  def solve(path) do
+    File.stream!(path)
+    |> Stream.map(&process_line/1)
     |> Enum.sum
     |> Integer.to_string()
   end
@@ -16,10 +15,9 @@ defmodule Day01.Part1 do
 end
 
 defmodule Day01.Part2 do
-  def solve(input) do
-    input
-    |> String.split("\n", trim: true)
-    |> Enum.map(&process_line/1)
+  def solve(path) do
+    File.stream!(path)
+    |> Stream.map(&process_line/1)
     |> Enum.sum
     |> Integer.to_string()
   end
@@ -46,9 +44,9 @@ defmodule Mix.Tasks.Day01 do
   use Mix.Task
 
   def run(_) do
-    {:ok, input} = File.read("inputs/day01-input.txt")
-    IO.puts("Part 1: " <> Day01.Part1.solve(input))
-    IO.puts("Part 2: " <> Day01.Part2.solve(input))
+    path = "inputs/day01-input.txt"
+    IO.puts("Part 1: " <> Day01.Part1.solve(path))
+    IO.puts("Part 2: " <> Day01.Part2.solve(path))
   end
 
 end
