@@ -2,9 +2,9 @@ defmodule Day02.Part1 do
   def solve(path, max_red, max_green, max_blue) do
     File.stream!(path)
     |> Stream.map(fn line ->
-      (check_valid(line, "red", max_red)
-      && check_valid(line, "green", max_green)
-      && check_valid(line, "blue", max_blue))
+      (is_valid?(line, "red", max_red)
+        && is_valid?(line, "green", max_green)
+        && is_valid?(line, "blue", max_blue))
       |> get_id(line)
     end)
     |> Enum.sum()
@@ -15,24 +15,39 @@ defmodule Day02.Part1 do
   def get_id(true, line) do
     Regex.scan(~r/Game (\d*):/, line)
     |> List.flatten()
-    |> Enum.slice(1..1)
-    |> List.first()
+    |> Enum.at(1)
     |> String.to_integer()
   end
 
-  def check_valid(line, color, max) do
-    regex = Regex.compile!(" (\\d*) #{color}")
-    Regex.scan(regex, line)
+  def is_valid?(line, color, max) do
+    Regex.scan(Regex.compile!(" (\\d*) #{color}"), line)
     |> Enum.flat_map(fn i -> Enum.slice(i, 1..1) end)
     |> Enum.map(&String.to_integer/1)
-    |> Enum.any?(fn i -> i > max end)
-    |> Kernel.not
+    |> Enum.all?(fn i -> i <= max end)
   end
 end
 
 defmodule Day02.Part2 do
   def solve(path) do
-    ""
+    File.stream!(path)
+    |> Stream.map(fn line ->
+      [max_value(line, "red"), max_value(line, "green"), max_value(line, "blue")]
+      |> Enum.reduce(fn c, acc -> c * acc end)
+    end)
+    |> Enum.sum()
+    |> Integer.to_string()
+  end
+
+  def max_value(line, color) do
+    Regex.scan(Regex.compile!(" (\\d*) #{color}"), line)
+    |> Enum.reduce(0, fn i, acc ->
+      Enum.at(i, 1)
+      |> String.to_integer()
+      |> case do
+        x when x > acc -> x
+        _ -> acc
+      end
+    end)
   end
 end
 
