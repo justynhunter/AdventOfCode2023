@@ -1,10 +1,10 @@
 defmodule Day02.Part1 do
-  def solve(path, max_red, max_green, max_blue) do
+  def solve(path) do
     File.stream!(path)
     |> Stream.map(fn line ->
-      (is_valid?(line, "red", max_red)
-        && is_valid?(line, "green", max_green)
-        && is_valid?(line, "blue", max_blue))
+      (is_valid?(line, "red", 12)
+        && is_valid?(line, "green", 13)
+        && is_valid?(line, "blue", 14))
       |> get_id(line)
     end)
     |> Enum.sum()
@@ -57,7 +57,7 @@ defmodule Mix.Tasks.Day02 do
   def run(_) do
     # IO.puts(Day02.Part1.check_valid("Game 1: 1 red, 3 blue, 11 green; 1 blue, 5 red; 3 blue, 5 green, 13 red; 6 red, 1 blue, 4 green; 16 red, 12 green", "red", 11))
     path = "inputs/day02-input.txt"
-    IO.puts("Part 1: " <> Day02.Part1.solve(path, 12, 13, 14))
+    IO.puts("Part 1: " <> Day02.Part1.solve(path))
     IO.puts("Part 2: " <> Day02.Part2.solve(path))
   end
 end
