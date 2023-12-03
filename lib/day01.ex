@@ -7,7 +7,7 @@ defmodule Day01.Part1 do
       |> (&(String.slice(&1, 0..0) <> String.slice(&1, -1..-1))).()
       |> String.to_integer()
     end)
-    |> Enum.sum
+    |> Enum.sum()
     |> Integer.to_string()
   end
 end
@@ -31,7 +31,7 @@ defmodule Day01.Part2 do
       |> (&(String.slice(&1, 0..0) <> String.slice(&1, -1..-1))).()
       |> String.to_integer()
     end)
-    |> Enum.sum
+    |> Enum.sum()
     |> Integer.to_string()
   end
 end
@@ -44,5 +44,4 @@ defmodule Mix.Tasks.Day01 do
     IO.puts("Part 1: " <> Day01.Part1.solve(path))
     IO.puts("Part 2: " <> Day01.Part2.solve(path))
   end
-
 end

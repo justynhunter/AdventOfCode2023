@@ -2,9 +2,9 @@ defmodule Day02.Part1 do
   def solve(path) do
     File.stream!(path)
     |> Stream.map(fn line ->
-      (is_valid?(line, "red", 12)
-        && is_valid?(line, "green", 13)
-        && is_valid?(line, "blue", 14))
+      (is_valid?(line, "red", 12) &&
+         is_valid?(line, "green", 13) &&
+         is_valid?(line, "blue", 14))
       |> get_id(line)
     end)
     |> Enum.sum()
@@ -12,6 +12,7 @@ defmodule Day02.Part1 do
   end
 
   defp get_id(false, _), do: 0
+
   defp get_id(true, line) do
     Regex.scan(~r/Game (\d*):/, line)
     |> List.flatten()
