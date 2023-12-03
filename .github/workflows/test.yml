@@ -1,0 +1,31 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: 26
+        elixir-version: 1.15.x
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: mix deps.get
+
+    - name: Compile
+      run: mix compile --warnings-as-errors
+
+    - name: Check Formatting
+      run: mix format --check-formatted
+
+    - name: Run Tests
+      run: mix test
