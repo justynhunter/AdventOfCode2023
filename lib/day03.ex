@@ -60,13 +60,8 @@ defmodule Day03.Part2 do
     |> Enum.map(fn {start_index, _} -> valid_nums(number_map, line_index, start_index, lines) end)
   end
 
-  def gear_ratio([{num1_start, num1_len}, {num2_start, num2_len}], line) do
-    (line |> Enum.slice(num1_start..(num1_start + num1_len - 1)) |> Enum.join("") |> String.to_integer())
-    * (line |> Enum.slice(num2_start..(num2_start + num2_len - 1)) |> Enum.join("") |> String.to_integer())
-  end
-
   def valid_nums(number_map, line_index, gear_index, lines) do
-    curr_line = Enum.at(number_map, line_index)
+    curr_map_line = Enum.at(number_map, line_index)
 
     nums_above = if line_index == 0 do [] else
       number_map
@@ -75,21 +70,21 @@ defmodule Day03.Part2 do
       |> Enum.map(fn {start, len} -> lines |> Enum.at(line_index - 1) |> parse_number(start, len) end)
     end
 
-    nums_below = if line_index >= Enum.count(number_map) do [] else
+    nums_below = if (line_index + 1) >= Enum.count(number_map) do [] else
       number_map
       |> Enum.at(line_index + 1)
-      |> Enum.filter(fn {start, len} -> gear_index >= (start - 1) and gear_index < (start + len) end)
+      |> Enum.filter(fn {start, len} -> (gear_index + 1) >= (start) and (gear_index - 1) <= (start + len - 1) end)
       |> Enum.map(fn {start, len} -> lines |> Enum.at(line_index + 1) |> parse_number(start, len) end)
     end
 
     nums_before = if gear_index == 0 do [] else
-      curr_line
-      |> Enum.filter(fn {start, len} -> gear_index - 1 <= (start + len - 1) end)
+      curr_map_line
+      |> Enum.filter(fn {start, len} -> (gear_index - 1) == (start + len - 1) end)
       |> Enum.map(fn {start, len} -> lines |> Enum.at(line_index) |> parse_number(start, len) end)
     end
 
-    nums_after = if gear_index >= Enum.count(curr_line) do [] else
-      curr_line
+    nums_after = if gear_index >= String.length(Enum.at(lines, line_index)) do [] else
+      curr_map_line
       |> Enum.filter(fn {start, _} -> start == (gear_index + 1) end)
       |> Enum.map(fn {start, len} -> lines |> Enum.at(line_index) |> parse_number(start, len) end)
     end
