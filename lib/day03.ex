@@ -21,7 +21,7 @@ defmodule Day03.Part1 do
   def find_num({line, line_index}, symbol_map) do
     Regex.scan(~r/\d+/, line, return: :index)
     |> List.flatten()
-    |> Enum.filter(fn {start_index, len} -> is_valid(symbol_map, line_index, start_index, start_index + len - 1) end)
+    |> Enum.filter(fn {start_index, len} -> is_valid(symbol_map, line_index, start_index, (start_index + len - 1)) end)
     |> Enum.map(fn {start_index, len} ->
       String.graphemes(line)
       |> Enum.slice(start_index..(start_index + len - 1))
@@ -36,8 +36,8 @@ defmodule Day03.Part1 do
 
     if line_index == 0 do false else Enum.at(symbol_map, line_index - 1) |> Enum.any?(&(&1 in ext_rng)) end
     || if line_index + 1 >= Enum.count(symbol_map) do false else Enum.at(symbol_map, line_index + 1) |> Enum.any?(&(&1 in ext_rng)) end
-    || if start_index <= 0 do false else Enum.any?(curr_line, &(&1 == (start_index - 1))) end
-    || if (end_index + 1) >= Enum.count(curr_line) do false else Enum.any?(curr_line, &(&1 == (end_index + 1))) end
+    || Enum.any?(curr_line, &(&1 == (start_index - 1)))
+    || Enum.any?(curr_line, &(&1 == (end_index + 1)))
   end
 end
 
