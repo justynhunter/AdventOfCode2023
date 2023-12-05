@@ -11,7 +11,11 @@ defmodule Day04.Part1 do
     |> Enum.drop(1)
     |> Enum.map(&(String.trim(&1, "\n") |> String.split(" ", trim: true)))
     |> find_intersections()
-    |> (&(if &1 == 0 do 0 else 2 ** (&1-1) end)).()
+    |> (&(if &1 == 0 do
+            0
+          else
+            2 ** (&1 - 1)
+          end)).()
   end
 
   def find_intersections([winners, my_nums]) do
@@ -25,7 +29,10 @@ defmodule Day04.Part2 do
   def solve(path) do
     lines = File.read!(path) |> String.split("\n", trim: true)
 
-    initial_score = 1..Enum.count(lines) |> Enum.to_list() |> Enum.reduce(%{}, fn i,acc -> Map.put(acc, i, 1) end)
+    initial_score =
+      1..Enum.count(lines)
+      |> Enum.to_list()
+      |> Enum.reduce(%{}, fn i, acc -> Map.put(acc, i, 1) end)
 
     lines
     |> Enum.reduce(initial_score, fn line, acc ->
@@ -42,7 +49,9 @@ defmodule Day04.Part2 do
     if intersections != 0 do
       Enum.to_list((card.num + 1)..(card.num + find_intersections(card[:card])))
       |> Enum.reduce(tally, fn x, acc -> %{acc | x => acc[x] + acc[card.num]} end)
-    else tally end
+    else
+      tally
+    end
   end
 
   def find_intersections([winners, my_nums]) do
@@ -54,7 +63,10 @@ defmodule Day04.Part2 do
   def parse_line(line) do
     %{
       num: Regex.run(~r/Card\s+(\d*):/, line) |> List.last() |> String.to_integer(),
-      card: String.split(line, ~r/[:|]/, trim: true) |> Enum.drop(1) |> Enum.map(&(String.trim(&1, "\n") |> String.split(" ", trim: true)))
+      card:
+        String.split(line, ~r/[:|]/, trim: true)
+        |> Enum.drop(1)
+        |> Enum.map(&(String.trim(&1, "\n") |> String.split(" ", trim: true)))
     }
   end
 end
