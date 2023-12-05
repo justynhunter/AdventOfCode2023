@@ -5,7 +5,7 @@ defmodule Day04Test do
     assert Day04.Part1.solve("inputs/day04-test.txt") == "13"
   end
 
-  # test "part2 test" do
-  #   assert Day04.Part2.solve("inputs/day04-test.txt") == "467835"
-  # end
+  test "part2 test" do
+    assert Day04.Part2.solve("inputs/day04-test.txt") == "30"
+  end
 end
