@@ -8,8 +8,7 @@ defmodule Day05.Part1 do
     |> Enum.chunk_by(fn l -> l == "" end)
     |> Enum.filter(&(&1 != [""]))
     |> Enum.map(&parse_mapping_block/1)
-
-    dbg(mappings)
+    |> dbg()
 
     lines
     |> Enum.at(0)
@@ -17,15 +16,12 @@ defmodule Day05.Part1 do
     |> Enum.drop(1)
     |> Enum.map(&String.to_integer/1)
     |> Enum.map(&(process_seed(&1, mappings, &1)))
-    #|> Enum.map(&(process_map(&1, mappings, &1)))
     |> Enum.min_by(fn {_,val} -> val end)
     |> (fn {seed, _} -> Integer.to_string(seed) end).()
-    |> dbg()
   end
 
   def process_seed(source, [], seed), do: {seed, source}
   def process_seed(source, [mappings | rest], seed) do
-    IO.puts(source)
     case Enum.find(mappings, &(source in elem(&1, 0))) do
       {start.._, dest} -> process_seed(source-start+dest, rest, seed)
       _ -> process_seed(source, rest, seed);
