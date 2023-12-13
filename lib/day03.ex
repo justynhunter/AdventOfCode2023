@@ -67,7 +67,9 @@ defmodule Day03.Part2 do
   def find_gear({line, line_index}, number_map, lines) do
     Regex.scan(~r/\*/, line, return: :index)
     |> List.flatten()
-    |> Enum.map(fn {start_index, _} -> valid_nums(number_map, line_index, start_index, lines) end)
+    |> Enum.map(fn {start_index, _} ->
+        valid_nums(number_map, line_index, start_index, lines)
+      end)
   end
 
   def valid_nums(number_map, line_index, gear_index, lines) do
