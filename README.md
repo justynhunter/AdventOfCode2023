@@ -1,5 +1,4 @@
-[![Run Tests](https://github.com/justynhunter/advent-of-code-2023-ex/actions/workflows/test.yml/badge.svg)](https://github.com/justynhunter/advent-of-code-2023-ex/actions/workflows/test.yml)
-
+[![Run Tests](https://github.com/justynhunter/advent-of-code-2023-ex/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/justynhunter/advent-of-code-2023-ex/actions/workflows/test.yml)
 # AdventOfCode2023
 
 To get day 1 answers;
