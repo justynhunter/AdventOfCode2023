@@ -42,7 +42,7 @@ end
 
 defmodule Day05.Part2 do
   def solve(path) do
-    ""
+    path 
   end
 
   def parse_seeds("seeds: " <> seeds) do
@@ -60,6 +60,6 @@ defmodule Mix.Tasks.Day05 do
   def run(_) do
     path = "inputs/day05-input.txt"
     IO.puts("Part 1: " <> Day05.Part1.solve(path))
-    IO.puts("Part 2: " <> Day05.Part2.solve(path))
+    #IO.puts("Part 2: " <> Day05.Part2.solve(path))
   end
 end
