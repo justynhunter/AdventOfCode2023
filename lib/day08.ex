@@ -6,17 +6,23 @@ defmodule Day08.Part1 do
       |> String.split("\n", trim: true)
       |> parse_lines()
 
-    process(dir_maps.directions, dir_maps.directions, "AAA", dir_maps.maps, 0) 
+    process(dir_maps.directions, dir_maps.directions, "AAA", dir_maps.maps, 0)
   end
 
-  def parse_lines([lrs| mappings]) do
+  def parse_lines([lrs | mappings]) do
     dirs =
       lrs
       |> String.graphemes()
-      |> Enum.map(fn c -> if c == "L" do :left else :right end end)
+      |> Enum.map(fn c ->
+        if c == "L" do
+          :left
+        else
+          :right
+        end
+      end)
 
     maps = Enum.map(mappings, &parse_mapping/1)
-    %{ directions: dirs, maps: maps}
+    %{directions: dirs, maps: maps}
     # process(dirs, dirs, "AAA", maps, 0)
   end
 
@@ -32,7 +38,7 @@ defmodule Day08.Part1 do
 
   def parse_mapping(mapping) do
     [[_, from, left, right]] = Regex.scan(~r/([A-Za-z]*) = \(([A-Za-z]*), ([A-Za-z]*)\)/, mapping)
-    %{ from: from, left: left, right: right }
+    %{from: from, left: left, right: right}
   end
 end
 
@@ -41,7 +47,7 @@ defmodule Day08.Part2 do
     path
     |> File.read!()
     |> String.split("\n", trim: true)
-    
+
     6
   end
 end
