@@ -36,7 +36,37 @@ end
 
 defmodule Day09.Part2 do
   def solve(path) do
-    0
+    File.read!(path)
+    |> String.split("\n", trim: true)
+    |> Enum.map(&calc_prev/1)
+    |> Enum.sum()
+  end
+
+  defp calc_prev(line) do
+    line
+    |> String.split(" ", trim: true)
+    |> Enum.map(&String.to_integer/1)
+    |> (&all_diff([&1])).()
+    |> Enum.reduce(0, fn [x | _], acc -> x - acc end)
+  end
+
+  defp all_diff([curr]), do: all_diff([diffs(curr) | [curr]])
+
+  defp all_diff([curr | nums]) do
+    d = diffs(curr)
+
+    if Enum.all?(d, &(&1 == 0)) do
+      [d, curr | nums]
+    else
+      all_diff([d, curr | nums])
+    end
+  end
+
+  def diffs([]), do: []
+  def diffs([_]), do: []
+
+  def diffs([x, y | nums]) do
+    [y - x | diffs([y | nums])]
   end
 end
 

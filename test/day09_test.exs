@@ -6,6 +6,6 @@ defmodule Day09Test do
   end
 
   test "part2 test" do
-    # assert Day09.Part2.solve("inputs/day09-part2-test.txt") == 6
+    assert Day09.Part2.solve("inputs/day09-test.txt") == 2
   end
 end
