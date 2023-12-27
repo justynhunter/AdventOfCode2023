@@ -1,47 +1,38 @@
 defmodule Day08.Part1 do
   def solve(path) do
-    path
-    |> File.read!()
-    |> String.split("\n", trim: true)
-    |> parse_lines()
-    |> (fn [instructions, maps] ->
-          process(instructions, instructions, Enum.at(maps, 0).from, maps, 0)
-        end).()
+    dir_maps =
+      path
+      |> File.read!()
+      |> String.split("\n", trim: true)
+      |> parse_lines()
+
+    process(dir_maps.directions, dir_maps.directions, "AAA", dir_maps.maps, 0) 
   end
 
-  def parse_lines(lines) do
-    instructions =
-      lines
-      |> Enum.at(0)
+  def parse_lines([lrs| mappings]) do
+    dirs =
+      lrs
       |> String.graphemes()
-      |> Enum.map(fn c ->
-        case c do
-          "L" -> :left
-          "R" -> :right
-        end
-      end)
+      |> Enum.map(fn c -> if c == "L" do :left else :right end end)
 
-    maps =
-      lines
-      |> Enum.drop(1)
-      |> Enum.map(fn line ->
-        [[_, from, left, right]] =
-          Regex.scan(~r/([A-Za-z]*) = \(([A-Za-z]*), ([A-Za-z]*)\)/, line)
-
-        %{from: from, left: left, right: right}
-      end)
-
-    [instructions, maps]
+    maps = Enum.map(mappings, &parse_mapping/1)
+    %{ directions: dirs, maps: maps}
+    # process(dirs, dirs, "AAA", maps, 0)
   end
 
   def process(_, _, "ZZZ", _, count), do: count
 
   def process([], dirs, current, maps, count), do: process(dirs, dirs, current, maps, count)
 
-  def process([lr | instructions], dirs, current, maps, count) do
+  def process([lr | dirs], all_dirs, current, maps, count) do
     maps
     |> Enum.find(fn map -> map.from == current end)
-    |> (fn m -> process(instructions, dirs, m[lr], maps, count + 1) end).()
+    |> (fn m -> process(dirs, all_dirs, m[lr], maps, count + 1) end).()
+  end
+
+  def parse_mapping(mapping) do
+    [[_, from, left, right]] = Regex.scan(~r/([A-Za-z]*) = \(([A-Za-z]*), ([A-Za-z]*)\)/, mapping)
+    %{ from: from, left: left, right: right }
   end
 end
 
@@ -50,6 +41,8 @@ defmodule Day08.Part2 do
     path
     |> File.read!()
     |> String.split("\n", trim: true)
+    
+    6
   end
 end
 
