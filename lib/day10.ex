@@ -52,8 +52,8 @@ defmodule Day10.Part1 do
     pipe = grid |> Enum.at(x) |> Enum.at(y)
 
     case {pipe, dir} do
-      {"-", "E"} -> {:ok, east(x,y)}
-      {"-", "W"} -> {:ok, west(x,y)}
+      {"-", "E"} -> {:ok, east(x, y)}
+      {"-", "W"} -> {:ok, west(x, y)}
       {"|", "N"} -> {:ok, north(x, y)}
       {"|", "S"} -> {:ok, south(x, y)}
       {"7", "N"} -> {:ok, west(x, y)}
@@ -61,7 +61,7 @@ defmodule Day10.Part1 do
       {"F", "W"} -> {:ok, south(x, y)}
       {"F", "N"} -> {:ok, east(x, y)}
       {"L", "S"} -> {:ok, east(x, y)}
-      {"L", "W"} -> {:ok, north(x,y)}
+      {"L", "W"} -> {:ok, north(x, y)}
       {"J", "E"} -> {:ok, north(x, y)}
       {"J", "S"} -> {:ok, west(x, y)}
       {"S", _} -> {:done, count}
